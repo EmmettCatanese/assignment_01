@@ -1,0 +1,26 @@
+{
+  "name": "IST356 Assignment 01",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [28888, 28501, 28000],
+  "portsAttributes": {
+    "28888": { "label": "Jupyter" },
+    "28501": { "label": "Streamlit" },
+    "28000": { "label": "FastAPI" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.black-formatter",
+        "ms-python.pylint"
+      ],
+      "settings": {
+        "python.testing.pytestEnabled": true,
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  }
+}

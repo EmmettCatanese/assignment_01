@@ -1,0 +1,4 @@
+Write your reflection here.
+
+See reflection.md for what makes a good reflection — be specific, use the
+terminology from class, and make it actionable.
