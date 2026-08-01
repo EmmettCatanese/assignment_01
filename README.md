@@ -118,25 +118,277 @@ whether that's in your browser (Codespaces) or on your desktop.
 
 ---
 
-## Walkthrough — How to do things
+## Instructions 
 
-These are the ten core tasks. Do each one now so you know how it works.
+In this section you are given assignment instructions. Consider these a checklist for completing the required parts of the assignment.
 
-> **Using GitHub Codespaces (Prep → Option A)?** Every step below works exactly the
+EXAMPLE: 
+
+- `code/bill.py` complete these functions (`tip_amount`, `grand_total`, `split_evenly`, `is_generous`) and make sure these tests pass (`test_tip_amount`, `test_grand_total`, `test_split_evenly`, `test_split_evenly_rejects_zero_people`, `test_is_generous`).
+- complete `code/console.py` get the tip calculator program working.
+- complete `code/dashboard.py` get the streamlit calculator program working.
+- all tests should pass
+- code reflection written
+
+---
+
+## Walkthrough — Do the assignment step by step
+
+This is a guided, hands-on run through the **whole** assignment. Follow it in order.
+Each step tells you *what* to do; when you need the *mechanics* ("how do I run a
+test?"), follow the link to the matching **Reference — How do I…?** entry below.
+
+Everything happens inside VS Code in the course container — Codespaces or local, it's
+identical.
+
+### Step 1 — Write `tip_amount` and run its test
+
+1. Open `code/bill.py` (Reference #1). Find `tip_amount(subtotal, pct)`. Its docstring
+   says: return `pct` percent of `subtotal`, rounded to the nearest cent.
+2. Write the body:
+   ```python
+   def tip_amount(subtotal, pct):
+       return round(subtotal * pct / 100, 2)
+   ```
+3. Save (`Ctrl+S`), then run the unit test `test_tip_amount` from the **Testing** panel
+   (Reference #3). You should get a green **✓** — a 20% tip on $50 is $10.00.
+
+### Step 2 — Try your function in the notebook
+
+Open `code/explore.ipynb` and run it (Reference #5). Like the console and Streamlit
+apps, the notebook does no math of its own — it `import bill` and calls your functions.
+Run the cells top to bottom (`Shift+Enter`, or **Run All**):
+
+1. `import pandas as pd` and `import bill`.
+2. One worked example — a $50 bill, 20% tip, split 4 ways — printing the grand total
+   and per-person share via `bill.grand_total(...)` and `bill.split_evenly(...)`.
+3. A `pandas` table comparing the per-person cost across tip percentages
+   `[10, 15, 18, 20, 25]`.
+4. A bar chart of that same table.
+
+Change a value — e.g. `subtotal, pct, people = 50.0, 20, 4` in cell 2 — and re-run to
+watch the numbers and the chart update. This is a quick way to sanity-check `bill.py`
+outside the tests.
+
+### Step 3 — Write `grand_total` *wrong*, then debug it
+
+Learning to read a failing test is the whole point of this step.
+
+1. In `bill.py`, write `grand_total` **incorrectly** on purpose — e.g. return only the
+   tip and forget to add the subtotal:
+   ```python
+   def grand_total(subtotal, pct):
+       return tip_amount(subtotal, pct)   # BUG: forgot to add the subtotal
+   ```
+2. Run `test_grand_total` (Reference #3). It **fails** — the panel shows something like
+   `assert 10.0 == 60.0`.
+3. Debug it. In the **Testing** panel, right-click the failing test → **Debug Test**,
+   set a breakpoint inside `grand_total`, and use the debugger's **VARIABLES** panel and
+   stepping controls (Reference #2) to see that the return value is missing the subtotal.
+4. Fix it and re-run until it's green:
+   ```python
+   def grand_total(subtotal, pct):
+       return round(subtotal + tip_amount(subtotal, pct), 2)
+   ```
+
+### Step 4 — Write `split_evenly` yourself
+
+Now you try. `split_evenly(total, people)` returns each person's share, rounded to
+cents, and must raise `ValueError` when `people` is 0 or less.
+
+Hint: **divide the total by the number of people** and wrap it in `round(..., 2)`. For
+the error case, check `if people <= 0:` and `raise ValueError(...)`. Make **both**
+`test_split_evenly` and `test_split_evenly_rejects_zero_people` pass (Reference #3).
+
+<details><summary>Answer — open only if you're stuck</summary>
+
+```python
+def split_evenly(total, people):
+    if people <= 0:
+        raise ValueError("people must be greater than 0")
+    return round(total / people, 2)
+```
+</details>
+
+### Step 5 — Write `is_generous` yourself
+
+`is_generous(pct)` returns `True` when the tip is **20% or more**. Write it and make
+`test_is_generous` pass (Reference #3).
+
+<details><summary>Answer — open only if you're stuck</summary>
+
+```python
+def is_generous(pct):
+    return pct >= 20
+```
+</details>
+
+### Step 6 — Commit and push your finished module
+
+Every unit test passes now — save your first checkpoint:
+
+1. Commit with the message `bill.py all tests pass` (Reference #7).
+2. Push to your fork (Reference #8).
+3. View the commit on GitHub (Reference #9).
+
+### Step 7 — Get *early* feedback from GraderThan
+
+You don't have to be finished to get feedback. Submit what you have (Reference #10) and
+read the results — you should earn the unit-test points, while the integration and
+reflection parts are still incomplete. That's expected.
+
+While you're there, find where GraderThan shows the **rubric**, so you know exactly how
+points are awarded. It's the same rubric defined in `rubric.json`: **10 points total** —
+Unit Tests (3), Integration Tests (3), Code style & readability (2), and Reflection (2).
+
+> **TODO:** document *where* in the GraderThan UI the rubric is shown (menu path or
+> screenshot) — that specific location isn't in the assignment repo.
+
+### Step 8 — Break `console.py`, then debug it
+
+Time for the console interface. To practice the debugger on a real interface, plant a
+logical error or two, run it, watch the integration test fail, and track the bug down.
+
+1. Open `code/console.py` and introduce a logical error — e.g. split the *subtotal*
+   instead of the *grand total*:
+   ```python
+   per_person = split_evenly(subtotal, people)   # BUG: should split `total`
+   ```
+2. Run `test_console_app` (Reference #3) — it fails.
+3. Run and **debug** `console.py` (Reference #2, #4): breakpoint the buggy line, inspect
+   the variables, and see the per-person amount is wrong.
+4. Fix it back to `split_evenly(total, people)` and re-run until `test_console_app`
+   passes.
+
+> **Note:** the bug above is one good option (the per-person amount comes out too low
+> because it splits the pre-tip subtotal). Swap in a different logical error if you
+> prefer — e.g. reversing the `split_evenly(total, people)` arguments.
+
+### Step 9 — "Finish" the assignment (on purpose, incompletely)
+
+Pretend you're done and submit — even though **`dashboard.py` isn't working and the
+reflection isn't written.** This is intentional: you're about to see GraderThan catch
+what's missing.
+
+### Step 10 — Write a *weak* first reflection
+
+Open `code/reflection.txt` and write a quick, low-effort reflection — the kind
+`reflection.md` calls **poor**: vague, no domain terms, not actionable. Something like:
+
+> This assignment was pretty easy. I learned some Python and made the tip calculator
+> work. The tests were kind of annoying but I got them to pass. I don't really have any
+> questions.
+
+It's not *wrong*, but it's generic (could describe almost any assignment), uses no
+terminology, and gives you nothing to act on later. On the rubric that's **0–1 of 2**.
+
+### Step 11 — Commit and push "assignment complete"
+
+Commit with the message `assignment complete`, push, and view it on GitHub
+(Reference #7–9).
+
+### Step 12 — Submit again and read the gaps
+
+Submit to GraderThan (Reference #10). Notice the feedback: **`dashboard.py` still fails
+its integration test** and the **reflection scores low.** Good — that's what "not
+actually done" looks like.
+
+### Step 13 — Finish `dashboard.py`
+
+Back to work. Complete the Streamlit dashboard and make `test_streamlit_app` pass
+(Reference #3, #6).
+
+<details><summary>Working <code>dashboard.py</code></summary>
+
+```python
+import pandas as pd
+import streamlit as st
+
+from bill import tip_amount, grand_total, split_evenly, is_generous
+
+st.title("💵 Bill Splitter")
+
+subtotal = st.number_input("Bill subtotal ($)", min_value=0.0, value=50.0, step=1.0, key="subtotal")
+pct = st.slider("Tip %", min_value=0, max_value=30, value=18, key="tip")
+people = st.number_input("Number of people", min_value=1, value=2, step=1, key="people")
+
+tip = tip_amount(subtotal, pct)
+total = grand_total(subtotal, pct)
+per_person = split_evenly(total, people)
+
+col1, col2, col3 = st.columns(3)
+col1.metric("Tip", f"${tip:.2f}")
+col2.metric("Grand total", f"${total:.2f}")
+col3.metric("Per person", f"${per_person:.2f}")
+
+if is_generous(pct):
+    st.success("That's a generous tip! 🎉")
+else:
+    st.info("Tip 20% or more to be considered generous.")
+
+st.subheader("Per-person cost by tip %")
+percents = [10, 15, 18, 20, 25]
+chart = pd.DataFrame(
+    {"per person": [split_evenly(grand_total(subtotal, p), people) for p in percents]},
+    index=[f"{p}%" for p in percents],
+)
+st.bar_chart(chart)
+```
+</details>
+
+### Step 14 — Rewrite the reflection properly
+
+Replace `reflection.txt` with a **good** reflection — specific, using course
+terminology (module, interface, unit vs. integration test, breakpoint/debugger), and
+actionable (see `reflection.md`). Something like:
+
+> I learned how a **module** (`bill.py`) keeps the logic separate from the three
+> **interfaces** (console, notebook, Streamlit) that `import` it — the same four
+> functions powered all three. The **unit tests** call each function directly, while the
+> **integration tests** run a whole interface; when `test_grand_total` failed I learned
+> to read the assertion (expected `60.0`, got `10.0`) instead of guessing. I struggled
+> most with the **debugger** — I set a **breakpoint** but forgot I can't edit code while
+> the program is paused. Next I want to practice stepping through a failing test and
+> reading the **VARIABLES** panel so debugging is my first move, not my last. I also
+> want more practice with rounding money (`round(x, 2)`) — I wasn't sure why `100 / 3`
+> came out to `33.33`.
+
+Why it scores well (**2 of 2**): it's **specific** (names the exact functions, tests,
+and panels), it **uses the terminology** from class (module, interface, unit vs.
+integration test, breakpoint, assertion), and it's **actionable** — it names concrete
+next steps the student can actually practice.
+
+### Step 15 — Commit the corrected work
+
+Commit `corrected assignment`, push, and view on GitHub (Reference #7–9).
+
+### Step 16 — Final submit
+
+Submit to GraderThan one last time (Reference #10). Every test passes and the reflection
+scores well — a perfect score. 🎉
+
+---
+
+## Reference — How do I…?
+
+These are the core mechanics you'll use in *every* assignment. The Walkthrough above
+links back to them by number.
+
+> **Using GitHub Codespaces (Prep → Option A)?** Every entry below works exactly the
 > same — it's the same VS Code and the same course container, just in your browser.
-> Only two steps differ, and each is flagged inline with a 🌐 **In Codespaces** note:
-> **running a web app** (step 6 — use the **PORTS** panel instead of `localhost`) and
-> **pushing to GitHub** (step 8 — you're already signed in). Menus, panels, and
-> keyboard shortcuts are identical.
+> Only two differ, and each is flagged inline with a 🌐 **In Codespaces** note:
+> **running a web app** (Reference #6 — use the **PORTS** panel instead of `localhost`)
+> and **pushing to GitHub** (Reference #8 — you're already signed in). Menus, panels,
+> and keyboard shortcuts are identical.
 
-### 1. Write / edit code
+### 1. How do I write / edit code?
 
 In the **Explorer** (top icon in the Activity Bar on the left, or **View → Explorer**),
 open `code/bill.py`. Read the docstrings in the file. Click into the editor, make a
 change, and **save** with `Ctrl+S`. That's it — you write and edit all of your code
 right here.
 
-### 2. Use the VS Code debugger
+### 2. How do I use the VS Code debugger?
 
 The debugger lets you pause a running program and inspect it line-by-line — great
 for understanding what your code is actually doing. Here's the mechanic:
@@ -156,7 +408,7 @@ for understanding what your code is actually doing. Here's the mechanic:
 
 > You can't edit code while the program is paused — stop debugging first, then edit.
 
-### 3. Run automated tests
+### 3. How do I run automated tests?
 
 Tests tell you whether your code does what it's supposed to.
 
@@ -173,7 +425,7 @@ Run the tests now. They pass once you've finished *The Assignment* — the unit 
 check your `bill.py` functions, and the integration tests check that the console,
 notebook, and Streamlit interfaces work.
 
-### 4. Run a terminal app
+### 4. How do I run a terminal (console) app?
 
 A "terminal app" is a plain Python program that reads input and prints output in
 the terminal.
@@ -185,7 +437,7 @@ the terminal.
    e.g. `Bill subtotal:` `50`, `Tip percent:` `20`, `Number of people:` `4` — and
    press Enter to see the split.
 
-### 5. Run a notebook app
+### 5. How do I run a notebook app?
 
 A Jupyter notebook mixes text and runnable code in "cells."
 
@@ -197,7 +449,7 @@ A Jupyter notebook mixes text and runnable code in "cells."
 4. Each code cell's output appears directly beneath it. Follow along with the
    notes inside the notebook.
 
-### 6. Run a Streamlit app
+### 6. How do I run a Streamlit app?
 
 Streamlit turns a Python file into an interactive web app.
 
@@ -215,7 +467,7 @@ Streamlit turns a Python file into an interactive web app.
    Interact with the tip slider and the number inputs to re-split the bill.
 5. Stop it with **Run → Stop Debugging** (`Shift+F5`) when you're done.
 
-### 7. Commit code changes in VS Code
+### 7. How do I commit my changes in VS Code?
 
 A *commit* is a saved snapshot of your work in git.
 
@@ -227,7 +479,7 @@ A *commit* is a saved snapshot of your work in git.
    `Implement bill.py functions`).
 4. Click the **✓ Commit** button.
 
-### 8. Push your code
+### 8. How do I push my code to GitHub?
 
 Committing saves the snapshot *locally*. **Pushing** sends it to your fork on
 GitHub.
@@ -238,14 +490,14 @@ GitHub.
   > 🌐 **In Codespaces:** you're already signed in to GitHub, so **Sync Changes**
   > pushes straight to your fork — no sign-in prompt.
 
-### 9. See your code on GitHub
+### 9. How do I see my code on GitHub?
 
 - In your browser, go to your fork: `https://github.com/YOUR-GITHUB-USERNAME/assignment_01`
   and **refresh**. You should see your latest commit message and your changed
   files. If it's there, your work is safely on GitHub. **This is the copy
   GraderThan reads.**
 
-### 10. Submit code for grading using GraderThan
+### 10. How do I submit for grading with GraderThan?
 
 GraderThan runs the autograder against your fork and gives you feedback and a score.
 
@@ -279,7 +531,7 @@ it should return:
 | `split_evenly(total, people)` | each person's share (and it raises `ValueError` if `people <= 0`) |
 | `is_generous(pct)` | `True` when the tip is 20% or more |
 
-Implement them so the **Unit Tests** (`tests/test_unit.py`, Walkthrough #3) all
+Implement them so the **Unit Tests** (`tests/test_unit.py`, Reference #3) all
 pass. These functions do **no** `input()` or `print()` — they just take values in
 and return a value out.
 
@@ -289,9 +541,9 @@ Three interfaces already `import bill` and use your functions — the **Integrat
 Tests** (`tests/test_integration.py`) confirm each one works once `bill.py` is
 correct:
 
-- **`console.py`** — run it (Walkthrough #4) and split a bill in the terminal.
-- **`explore.ipynb`** — run it (Walkthrough #5) to see the tips compared in a table.
-- **`dashboard.py`** — run it (Walkthrough #6) and split a bill with sliders.
+- **`console.py`** — run it (Reference #4) and split a bill in the terminal.
+- **`explore.ipynb`** — run it (Reference #5) to see the tips compared in a table.
+- **`dashboard.py`** — run it (Reference #6) and split a bill with sliders.
 
 ### 3. Reflection
 
@@ -313,4 +565,4 @@ GraderThan scores this assignment out of **10 points** (see `rubric.json`):
 | Reflection quality | 2 | AI reviewer |
 
 **Only files in the `code/` folder are graded.** Commit, push, and submit
-(Walkthrough #7–10) to get your score and feedback.
+(Reference #7–10) to get your score and feedback.
