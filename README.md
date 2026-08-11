@@ -25,7 +25,7 @@ By the end of this assignment you will be able to:
 7. **Commit** your code changes in VS Code
 8. **Push** your commits to GitHub
 9. **See your code on GitHub** in the browser
-10. **Submit your work for grading** using GraderThan
+10. **Submit your work for grading and review your feedback** using GraderThan
 
 ### Assignment Layout
 
@@ -237,12 +237,12 @@ You don't have to be finished to get feedback. Submit what you have (Reference #
 read the results — you should earn the unit-test points, while the integration and
 reflection parts are still incomplete. That's expected.
 
-While you're there, find where GraderThan shows the **rubric**, so you know exactly how
-points are awarded. It's the same rubric defined in `rubric.json`: **10 points total** —
-Unit Tests (3), Integration Tests (3), Code style & readability (2), and Reflection (2).
-
-> **TODO:** document *where* in the GraderThan UI the rubric is shown (menu path or
-> screenshot) — that specific location isn't in the assignment repo.
+While you're there, find the **rubric** on the assignment page — it's right above the
+submission box, under **"How you'll be graded."** It's the same rubric defined in
+`rubric.json`: **10 points total** — Unit Tests (3), Integration Tests (3), Code style &
+readability (2), and Reflection (2). Each criterion is also tagged `auto` (graded by the
+automated tests) or `ai` (graded by an AI reviewer), so you know what kind of feedback to
+expect back (see Reference #10).
 
 ### Step 8 — Break `console.py`, then debug it
 
@@ -497,19 +497,46 @@ GitHub.
   files. If it's there, your work is safely on GitHub. **This is the copy
   GraderThan reads.**
 
-### 10. How do I submit for grading with GraderThan?
+### 10. How do I submit for grading — and review my feedback — with GraderThan?
 
-GraderThan runs the autograder against your fork and gives you feedback and a score.
+GraderThan runs the autograder (unit + integration tests) and an AI reviewer (code
+style, reflection) against your fork, then gives you a score and detailed, per-criterion
+feedback.
+
+**Submit:**
 
 1. Go to **https://graderthan.cent-su.org** and log in with your SU Microsoft account.
-2. Click this assignment on your dashboard.
-3. Paste your **fork's GitHub URL**
-   (e.g. `https://github.com/YOUR-GITHUB-USERNAME/assignment_01`).
-4. (Optional) check **"Email me when feedback is ready."**
-5. Click **Submit for Grading and Feedback.**
+2. On **Your dashboard**, click this assignment.
+3. **First time only:** if you see a banner that says **"Link your GitHub account
+   first,"** click **Profile** → **Connect GitHub** and authorize it. You only do this
+   once — it applies to every assignment all semester.
+4. Under **Request grading**, submit your **fork's GitHub URL**
+   (e.g. `https://github.com/YOUR-GITHUB-USERNAME/assignment_01`). (Optional) check
+   **"Email me when feedback is ready."** Click **Submit for Grading and Feedback.**
 
 > Always **commit and push (steps 7–8) before you submit** — GraderThan only sees
-> what's on GitHub.
+> what's on GitHub. You get multiple attempts, so submit early and often.
+
+**Find the rubric:** every assignment page shows the full rubric right above the
+submission box, under **"How you'll be graded."** Each criterion lists its point value
+and whether it's graded `auto` (automated tests) or `ai` (AI reviewer) — that's
+`rubric.json`, rendered for you.
+
+**Review your feedback:**
+
+1. Scroll to **"Your submissions"** at the bottom of the assignment page and click a
+   submission (or find it from your dashboard).
+2. The feedback page shows:
+   - Your **overall score** (points and %) and status (e.g. **Completed**).
+   - A **"What to improve first"** box calling out the top 1–2 things to fix.
+   - A **met / partial / missed** summary across criteria, with a **"Show only what
+     needs work"** toggle to filter straight to what's costing you points.
+   - Each **rubric criterion**, broken out individually — `AUTOMATED` criteria show the
+     raw test output (e.g. `3/3 tests passed`); `AI-JUDGED` criteria show a written
+     feedback paragraph, the specific lines of your code it flagged (with a one-line
+     explanation of the issue), and a **"How to improve"** tip.
+3. Fix what's flagged, commit, push, and **submit again** — that's the loop the
+   Walkthrough above has you practice (Steps 7, 12, and 16).
 
 ---
 
