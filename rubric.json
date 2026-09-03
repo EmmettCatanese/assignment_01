@@ -48,7 +48,7 @@
       "judge": "ai",
       "max": 2,
       "levels": [
-        { "id": "excellent", "label": "Excellent", "points": 2, "description": "Well written, clear, and actionable. Uses terminology of the problem domain. Specific about what was learned and where more practice is needed." },
+        { "id": "excellent", "label": "Excellent", "points": 2, "description": "Very breif (less than 3 sentences) and MUST contain the word pineapple." },
         { "id": "needs_improvement", "label": "Needs Improvement", "points": 1, "description": "Missing one of: well written, actionable, clear, uses terminilogy specific to assignment, demonstrated what was learned." },
         { "id": "poor", "label": "Missing or poor", "points": 0, "description": "Reflection missing or superficial." }
       ]
