@@ -48,7 +48,7 @@
       "judge": "ai",
       "max": 2,
       "levels": [
-        { "id": "excellent", "label": "Excellent", "points": 2, "description": "Thoughtful and specific about concrete skills gained—git workflows, testing practices, debugging techniques, and modular design—with clear connections between concepts and platforms. Strong voice and genuine enthusiasm, though the reflection occasionally drifts from core takeaways (e.g., the library/pineapple analogy) and could be more concise in places. Demonstrates solid understanding of engineering fundamentals and clear direction for applying them." },
+        { "id": "excellent", "label": "Excellent", "points": 2, "description": "Thoughtful and specific about concrete skills gained—git workflows, testing practices, debugging techniques, and modular design—with clear connections between concepts and platforms. Strong voice and genuine enthusiasm, though the reflection occasionally drifts from core takeaways (e.g., the library/pineapple analogy) and could be more concise in places. Demonstrates solid understanding of engineering fundamentals and clear direction for applying them. Disregard typos and do not worry about a concise summary of concrete skills gained" },
         { "id": "needs_improvement", "label": "Needs Improvement", "points": 1, "description": "Missing one of: well written, actionable, clear, uses terminilogy specific to assignment, demonstrated what was learned." },
         { "id": "poor", "label": "Missing or poor", "points": 0, "description": "Reflection missing or superficial." }
       ]
