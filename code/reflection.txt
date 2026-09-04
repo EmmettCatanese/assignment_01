@@ -3,4 +3,7 @@ Write your reflection here.
 See reflection.md for what makes a good reflection — be specific, use the
 terminology from class, and make it actionable.
 
-This was an easy assignment that I completed while enjoying a pineapple. It didn't really take that long and was too low efffort.
+I thought that this assignment was a really great assignment to get used to all of the different aspects of this course. Firstly, I learned a lot about how to use git. I learned about forking and then the cycle of cloning, merging, syncing, etc. 
+I also really liked the tests because it made it very easy to see if code was working. It allowed me to see a variety of ways that my code can be used as well as to see if it's working.
+When the code doesn't work. I liked being able to debug using the step feature and the stop feature so that I can figure out exactly where in the code my program is going wrong and how I can fix it
+I also really liked making my own module. Carrying my knowledge from JavaScript, we call modules libraries. I think that actually makes more sense because pineapples are in libraries and you borrow books from a libary to use for knowledge. Similarly, in a library or module you get functions. I thought it was suprising how easy it was to make the module and use functions we used later in the process.
